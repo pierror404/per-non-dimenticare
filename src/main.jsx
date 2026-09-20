@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import logoImage from '../resources/logo.png'
+import meImage from '../resources/me.jpeg'
 import europeMapImage from '../resources/luoghi/cartina-europa.jpeg'
+import meBriefText from '../resources/me-descr-breve.txt?raw'
+import meText from '../resources/me-descr.txt?raw'
 import storyText from '../resources/storia/storia.txt?raw'
 import memoryText from '../resources/la-memoria/la-memoria.txt?raw'
 import familyText from '../resources/famiglia/famiglia.txt?raw'
@@ -184,12 +187,15 @@ function App() {
       </section>
 
       <section className="manifesto" id="progetto">
-        <p className="section-label">IL PROGETTO <span>—</span> 2026</p>
-        <div className="manifesto-content">
-          <h2>La storia non è<br /><em>solo passato.</em></h2>
+        <p className="section-label">ME <span>—</span> GABRIELE LESDI</p>
+        <div className="me-content">
+          <div className="me-portrait-column">
+            <div className="me-portrait-frame"><img src={meImage} alt="Gabriele Lesdi" /></div>
+          </div>
           <div>
-            <p>Questo non è un progetto scolastico. È un gesto personale: raccogliere una storia, fare ordine tra documenti e ricordi, lasciare una traccia per chi verrà dopo.</p>
-            <a className="outlined-link" href="#memoria">Scopri l'intenzione <Arrow /></a>
+            <h2 className="me-description-title">Chi sono</h2>
+            <p className="me-brief">{meBriefText}</p>
+            <button className="outlined-link" type="button" onClick={() => { setSelectedChapter({ kind: 'me' }); setGalleryImageIndex(0) }}>Scopri di più su di me <Arrow /></button>
           </div>
         </div>
       </section>
@@ -234,7 +240,16 @@ function App() {
         <div className="dialog-backdrop" role="presentation" onMouseDown={() => setSelectedChapter(null)}>
           <article className={selectedChapter.places ? 'chapter-dialog places-dialog' : selectedChapter.gallery ? 'chapter-dialog story-dialog' : 'chapter-dialog text-dialog'} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="close-button" type="button" onClick={() => setSelectedChapter(null)} aria-label="Chiudi">×</button>
-            {selectedChapter.places ? (
+            {selectedChapter.kind === 'me' ? (
+              <div className="me-dialog-grid">
+                <div className="me-dialog-portrait"><img src={meImage} alt="Gabriele Lesdi" /></div>
+                <div className="me-dialog-copy">
+                  <p className="section-label">ME — GABRIELE LESDI</p>
+                  <h2 id="dialog-title">Chi sono: un ponte tra passato e future generazioni</h2>
+                  <p className="dialog-description">{meText}</p>
+                </div>
+              </div>
+            ) : selectedChapter.places ? (
               <div className="places-dialog-grid">
                 <EuropeMap selectedPlace={selectedPlace} onSelect={(place) => { setSelectedPlace(place); setGalleryImageIndex(0) }} />
                 <div className="place-copy">
