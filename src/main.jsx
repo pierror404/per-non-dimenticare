@@ -26,6 +26,11 @@ const documentImages = Object.entries(import.meta.glob('../resources/documenti/*
   .sort(([firstPath], [secondPath]) => firstPath.localeCompare(secondPath, undefined, { numeric: true }))
   .map(([path, source]) => ({ source, alt: `Documento storico ${path.split('/').pop()}` }))
 
+const familyImages = Object.entries(import.meta.glob('../resources/famiglia/famiglia/*', { eager: true, query: '?url', import: 'default' }))
+  .filter(([path]) => /\.(jpe?g|png|webp|gif)$/i.test(path))
+  .sort(([firstPath], [secondPath]) => firstPath.localeCompare(secondPath, undefined, { numeric: true }))
+  .map(([path, source]) => ({ source, alt: `Archivio di famiglia ${path.split('/').pop()}` }))
+
 const placeTextFiles = import.meta.glob('../resources/luoghi/**/*.txt', { eager: true, query: '?raw', import: 'default' })
 const placeImageFiles = import.meta.glob('../resources/luoghi/**/*', { eager: true, query: '?url', import: 'default' })
 
@@ -91,6 +96,7 @@ const chapters = [
     eyebrow: 'Pietro Barnobi',
     description: familyText,
     texture: 'family',
+    gallery: familyImages,
     cardImage: nonnaImage,
   },
   {
@@ -160,6 +166,12 @@ function App() {
   }, [selectedChapter, selectedPlace])
 
   const scrollToChapters = () => document.querySelector('#percorsi')?.scrollIntoView({ behavior: 'smooth' })
+  const openChapter = (chapter, place = places[0], showPlaceDetail = false) => {
+    setSelectedChapter(chapter)
+    setSelectedPlace(place)
+    setPlaceDetailOpen(showPlaceDetail)
+    setGalleryImageIndex(0)
+  }
   const chapterSlides = Array.from({ length: Math.ceil(chapters.length / cardsPerView) }, (_, index) => chapters.slice(index * cardsPerView, (index + 1) * cardsPerView))
   const activeChapterPage = Math.min(chapterPage, chapterSlides.length - 1)
 
@@ -171,7 +183,7 @@ function App() {
           <strong>DIMENTICARE</strong>
         </a>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Navigazione principale">
-          <a href="#progetto" onClick={() => setMenuOpen(false)}>Il progetto</a>
+          <a href="#progetto" onClick={() => setMenuOpen(false)}>Chi sono</a>
           <a href="#percorsi" onClick={() => setMenuOpen(false)}>Percorsi</a>
           <a href="#memoria" onClick={() => setMenuOpen(false)}>La memoria</a>
         </nav>
@@ -223,7 +235,7 @@ function App() {
               {chapterSlides.map((slide, slideIndex) => (
                 <div className="chapter-slide" key={slideIndex}>
                   {slide.map((chapter) => (
-                    <button className={`chapter-card ${chapter.texture} has-card-image`} style={{ '--card-image': `url(${chapter.cardImage})` }} onClick={() => { setSelectedChapter(chapter); setSelectedPlace(places[0]); setPlaceDetailOpen(false); setGalleryImageIndex(0) }} key={chapter.number} type="button">
+                    <button className={`chapter-card ${chapter.texture} has-card-image`} style={{ '--card-image': `url(${chapter.cardImage})` }} onClick={() => openChapter(chapter)} key={chapter.number} type="button">
                       <span className="chapter-number">{chapter.number}</span>
                       <span className="chapter-overlay" />
                       <span className="chapter-content"><small>{chapter.eyebrow}</small><strong>{chapter.title}</strong><Arrow /></span>
@@ -253,7 +265,14 @@ function App() {
             <button className="close-button" type="button" onClick={() => setSelectedChapter(null)} aria-label="Chiudi">×</button>
             {selectedChapter.kind === 'me' ? (
               <div className="me-dialog-grid">
-                <div className="me-dialog-portrait"><img src={meImage} alt="Gabriele Lesdi" /></div>
+                <div className="me-dialog-portrait">
+                  <img src={meImage} alt="Gabriele Lesdi" />
+                  <div className="me-dialog-contacts" aria-label="Contatti di Gabriele Lesdi">
+                    <a href="https://www.instagram.com/vivo_pernondimenticare?stkn=MWdxcHJpaWQwYnEwaA%3D%3D&amp;utm_source=qr" target="_blank" rel="noreferrer"><span className="contact-line"><svg className="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" /></svg>Instagram</span><span>@vivo_pernondimenticare</span></a>
+                    <a href="mailto:lesdigabriele@gmail.com"><span className="contact-line"><svg className="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m4 7 8 6 8-6" /></svg>Email</span><span>lesdigabriele@gmail.com</span></a>
+                    <a href="tel:+393922895396"><span className="contact-line"><svg className="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 10 3l2 4-2 1.5c1 2.1 2.4 3.5 4.5 4.5L16 11l4 2-1.5 3C17.8 18 16.5 19 15 19 9.5 18.5 5.5 14.5 5 9c0-1.5 1-2.8 2-4.5Z" /></svg>Telefono</span><span>+39 3922895396</span></a>
+                  </div>
+                </div>
                 <div className="me-dialog-copy">
                   <p className="section-label">ME — GABRIELE LESDI</p>
                   <h2 id="dialog-title">Chi sono: un ponte tra passato e future generazioni</h2>
@@ -279,9 +298,17 @@ function App() {
                   </div>
                 </div>
               ) : (
-                <div className="places-map-view">
-                  <EuropeMap selectedPlace={selectedPlace} onSelect={(place) => { setSelectedPlace(place); setPlaceDetailOpen(true); setGalleryImageIndex(0) }} />
-                </div>
+                <>
+                  <div className="places-mobile-dialog-list" aria-label="Luoghi della memoria">
+                    <p className="section-label">LUOGHI DELLA MEMORIA</p>
+                    {places.map((place) => (
+                      <button className="places-mobile-dialog-item" type="button" onClick={() => { setSelectedPlace(place); setPlaceDetailOpen(true); setGalleryImageIndex(0) }} key={place.id}>{place.title}<Arrow /></button>
+                    ))}
+                  </div>
+                  <div className="places-map-view">
+                    <EuropeMap selectedPlace={selectedPlace} onSelect={(place) => { setSelectedPlace(place); setPlaceDetailOpen(true); setGalleryImageIndex(0) }} />
+                  </div>
+                </>
               )
             ) : selectedChapter.gallery ? (
               <div className="story-dialog-grid">
