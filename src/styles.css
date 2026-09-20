@@ -49,7 +49,7 @@ h1,h2 { margin:18px 0; font-family:'Playfair Display',Georgia,serif; font-weight
 .schindler-marker span,.podgorze-marker span{top:auto;right:auto;bottom:4px;left:50%;margin-top:0;margin-left:-12.5px;transform:rotate(-45deg)}
 .schindler-marker:hover span,.schindler-marker.is-active span,.podgorze-marker:hover span,.podgorze-marker.is-active span{transform:rotate(-45deg) scale(1.18)}
 .podgorze-marker:hover span,.podgorze-marker.is-active span{transform:rotate(-45deg) scale(1.18)}
-.schindler-marker strong{transform:translateX(-50%) rotate(-120deg) translateY(-3px)}
+.schindler-marker{z-index:5}.schindler-marker strong{width:110px;white-space:normal;text-align:center;line-height:1.1;transform:translateX(-50%) rotate(-120deg) translateY(-3px);z-index:6}
 .podgorze-marker strong{transform:translateX(-50%) rotate(-240deg) translateY(-3px)}
 .podgorze-marker{width:40px;height:46px}
 .podgorze-marker strong{pointer-events:none}
@@ -63,3 +63,4 @@ h1,h2 { margin:18px 0; font-family:'Playfair Display',Georgia,serif; font-weight
 .places-map-dialog{width:min(100%,760px)}
 @media(max-width:760px){.places-dialog{height:auto}}
 .me-portrait-frame img{display:block;width:min(100%,360px);height:auto}
+.europe-map{overflow:visible}
