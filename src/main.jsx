@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import logoImage from '../resources/logo.png'
 import meImage from '../resources/me.jpeg'
+import triangoloImage from '../resources/triangolo.jpeg'
+import aquilaImage from '../resources/aquila.jpeg'
+import bisnonnoImage from '../resources/bisnonno.jpeg'
+import nonnaImage from '../resources/nonna.jpeg'
 import europeMapImage from '../resources/luoghi/cartina-europa.jpeg'
 import meBriefText from '../resources/me-descr-breve.txt?raw'
 import meText from '../resources/me-descr.txt?raw'
@@ -52,6 +56,7 @@ const chapters = [
     eyebrow: 'Perché ricordare',
     description: memoryText,
     texture: 'memory',
+    cardImage: triangoloImage,
   },
   {
     title: 'La storia',
@@ -60,6 +65,7 @@ const chapters = [
     texture: 'memory',
     gallery: storyImages,
     number: '02',
+    cardImage: aquilaImage,
   },
   {
     number: '03',
@@ -68,6 +74,7 @@ const chapters = [
     description: 'Luoghi reali, attraversati dalla storia. Oggi restano una traccia concreta di ciò che è accaduto.',
     texture: 'places',
     places: true,
+    cardImage: aquilaImage,
   },
   {
     number: '04',
@@ -76,6 +83,7 @@ const chapters = [
     description: documentText,
     texture: 'questions',
     gallery: documentImages,
+    cardImage: bisnonnoImage,
   },
   {
     number: '05',
@@ -83,12 +91,14 @@ const chapters = [
     eyebrow: 'Pietro Barnobi',
     description: familyText,
     texture: 'family',
+    cardImage: nonnaImage,
   },
   {
     number: '06',
     title: 'Riflessioni finali',
     eyebrow: 'Le domande',
     description: finalReflectionsText,
+      cardImage: triangoloImage,
     texture: 'questions',
   },
 ]
@@ -213,7 +223,7 @@ function App() {
               {chapterSlides.map((slide, slideIndex) => (
                 <div className="chapter-slide" key={slideIndex}>
                   {slide.map((chapter) => (
-                    <button className={`chapter-card ${chapter.texture}`} onClick={() => { setSelectedChapter(chapter); setSelectedPlace(places[0]); setPlaceDetailOpen(false); setGalleryImageIndex(0) }} key={chapter.number} type="button">
+                    <button className={`chapter-card ${chapter.texture} has-card-image`} style={{ '--card-image': `url(${chapter.cardImage})` }} onClick={() => { setSelectedChapter(chapter); setSelectedPlace(places[0]); setPlaceDetailOpen(false); setGalleryImageIndex(0) }} key={chapter.number} type="button">
                       <span className="chapter-number">{chapter.number}</span>
                       <span className="chapter-overlay" />
                       <span className="chapter-content"><small>{chapter.eyebrow}</small><strong>{chapter.title}</strong><Arrow /></span>

@@ -67,3 +67,4 @@ h1,h2 { margin:18px 0; font-family:'Playfair Display',Georgia,serif; font-weight
 .quote-mark{font-size:90px}
 .memory-section{padding:clamp(52px,8vw,110px) 15%}
 @media(max-width:760px){.memory-section{padding:52px 24px}}
+.chapter-card.has-card-image:before{background-image:linear-gradient(0deg,rgba(15,12,9,.88),rgba(15,12,9,.08) 70%),var(--card-image);background-size:cover,contain;background-position:center;background-repeat:no-repeat;background-color:#000}
