@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client'
 import logoImage from '../resources/logo.png'
 import europeMapImage from '../resources/luoghi/cartina-europa.jpeg'
 import storyText from '../resources/storia/storia.txt?raw'
+import memoryText from '../resources/la-memoria/la-memoria.txt?raw'
+import familyText from '../resources/famiglia/famiglia.txt?raw'
+import finalReflectionsText from '../resources/riflessioni-finali/riflessioni-finali.txt?raw'
 import documentText from '../resources/documenti/documenti.txt?raw'
 import './styles.css'
 
@@ -44,7 +47,7 @@ const chapters = [
     number: '01',
     title: 'La memoria',
     eyebrow: 'Perché ricordare',
-    description: 'Ricordare non è soltanto guardare indietro: è imparare a riconoscere l’ingiustizia nel presente.',
+    description: memoryText,
     texture: 'memory',
   },
   {
@@ -75,14 +78,14 @@ const chapters = [
     number: '05',
     title: 'Una famiglia',
     eyebrow: 'Pietro Barnobi',
-    description: 'La storia di Pietro, Orsola e Pierina: una vicenda familiare dentro le fratture del Novecento.',
+    description: familyText,
     texture: 'family',
   },
   {
     number: '06',
     title: 'Riflessioni finali',
     eyebrow: 'Le domande',
-    description: 'Cosa avremmo fatto noi? La memoria diventa utile quando riesce ancora a interrogarci.',
+    description: finalReflectionsText,
     texture: 'questions',
   },
 ]
@@ -229,7 +232,7 @@ function App() {
 
       {selectedChapter && (
         <div className="dialog-backdrop" role="presentation" onMouseDown={() => setSelectedChapter(null)}>
-          <article className={selectedChapter.places ? 'chapter-dialog places-dialog' : selectedChapter.gallery ? 'chapter-dialog story-dialog' : 'chapter-dialog'} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onMouseDown={(event) => event.stopPropagation()}>
+          <article className={selectedChapter.places ? 'chapter-dialog places-dialog' : selectedChapter.gallery ? 'chapter-dialog story-dialog' : 'chapter-dialog text-dialog'} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="close-button" type="button" onClick={() => setSelectedChapter(null)} aria-label="Chiudi">×</button>
             {selectedChapter.places ? (
               <div className="places-dialog-grid">
@@ -263,7 +266,6 @@ function App() {
                 <p className="section-label">{selectedChapter.number} — {selectedChapter.eyebrow}</p>
                 <h2 id="dialog-title">{selectedChapter.title}</h2>
                 <p className="dialog-description">{selectedChapter.description}</p>
-                <span className="dialog-note">Questo spazio è pronto per il testo completo e le immagini del capitolo.</span>
               </>
             )}
           </article>
