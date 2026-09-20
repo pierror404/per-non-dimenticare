@@ -230,8 +230,8 @@ function App() {
 
       <section className="memory-section" id="memoria">
         <div className="quote-mark">“</div>
-        <blockquote>Ricordare serve non solo a onorare chi non c’è più, ma anche a capire chi siamo oggi.</blockquote>
-        <p>La memoria è fragile: va custodita, discussa, tramandata.</p>
+        <blockquote>Se comprendere è impossibile, conoscere è necessario, perché ciò che è accaduto può ritornare, le coscienze possono nuovamente essere sedotte e oscurate: anche le nostre.</blockquote>
+        <p>Primo Levi, se questo è un uomo</p>
         <div className="memory-line"><span>1939</span><i /><span>1944</span><i /><span>Oggi</span></div>
       </section>
 

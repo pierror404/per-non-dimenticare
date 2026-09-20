@@ -64,3 +64,6 @@ h1,h2 { margin:18px 0; font-family:'Playfair Display',Georgia,serif; font-weight
 @media(max-width:760px){.places-dialog{height:auto}}
 .me-portrait-frame img{display:block;width:min(100%,360px);height:auto}
 .europe-map{overflow:visible}
+.quote-mark{font-size:90px}
+.memory-section{padding:clamp(52px,8vw,110px) 15%}
+@media(max-width:760px){.memory-section{padding:52px 24px}}
